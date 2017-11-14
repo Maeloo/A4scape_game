@@ -24,7 +24,9 @@ public class IdleState : BaseState
         {
             Vector3 newScale = OwnerCharacter.CharacterAnimator.transform.localScale;
             newScale.x *= -1f;
+
             OwnerCharacter.CharacterAnimator.transform.localScale = newScale;
+            OwnerCharacter.CharacterMovementComponent.Direction = Mathf.Sign(newScale.x);
         }
     }
 

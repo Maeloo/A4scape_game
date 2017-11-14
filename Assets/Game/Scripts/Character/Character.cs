@@ -9,7 +9,8 @@ public class Character : MonoBehaviour
     [SerializeField]
     protected GameObject StateMachinePrefab;
 
-    public float MinLeftBorderDistance = 30f;
+    public float LeftBorderDistance = 150f;
+    public float RightBorderDistance = 150f;
 
     protected StateMachine _CharacterStateMachine;
     protected Controller _CharacterController;
@@ -21,6 +22,9 @@ public class Character : MonoBehaviour
     /* Getters */
     public Animator CharacterAnimator { get { return _CharacterAnimator; } }
     public MovementComponent CharacterMovementComponent { get { return _CharacterMovementComponent; } }
+
+    [HideInInspector]
+    public float relativeVelocity;
 
 
     // Begin Play
@@ -51,8 +55,11 @@ public class Character : MonoBehaviour
     private void FixedUpdate()
     {
         Vector3 characterScreenPosition = GameCore.Instance.GameCamera.WorldToScreenPoint(transform.position);
-        if (characterScreenPosition.x < MinLeftBorderDistance && _CharacterMovementComponent.LastVelocity.x < 0f)
+        if ((characterScreenPosition.x <= LeftBorderDistance && _CharacterMovementComponent.LastVelocity.x < 0f) ||
+            (characterScreenPosition.x >= Screen.width - RightBorderDistance && _CharacterMovementComponent.LastVelocity.x > 0f))
         {
+            ParallaxSystem.Instance.UpdateLayers(_CharacterMovementComponent.Direction);
+
             _CharacterMovementComponent.StopMovement();
         }
     }

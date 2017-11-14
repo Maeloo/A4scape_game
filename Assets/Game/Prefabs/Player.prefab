@@ -55,8 +55,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1177171080954052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -3.9, y: -3.46, z: 0}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1}
   m_Children:
   - {fileID: 4960558027807320}
   m_Father: {fileID: 0}
@@ -151,7 +151,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StateMachinePrefab: {fileID: 1900608163325024, guid: 9e6ac38a7ec00a44ab74f79902ce71c5,
     type: 2}
-  MinLeftBorderDistance: 30
+  LeftBorderDistance: 150
+  RightBorderDistance: 150
+  relativeVelocity: 0
 --- !u!114 &114987132344620362
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 3.5
+  Direction: 0
   AuthXMove: 1
   AuthYMove: 0
 --- !u!212 &212892203457490098
@@ -199,7 +202,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8dd64d8af8996a740b6ad62e71a516c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

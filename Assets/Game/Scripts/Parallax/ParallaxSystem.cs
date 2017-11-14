@@ -4,59 +4,69 @@ using UnityEngine;
 
 
 [System.Serializable]
-public struct ParallaxLayer
+public class ParallaxLayer
 {
-    public GameObject LayerContainer;
+    public SpriteRenderer SpriteTemplate;
+    private List<SpriteRenderer> OrderedSprites;
+
     public int LayerOrder;
     public float LayerSpeed;
 
-    public PoolableSprite[] ElementPrefabs;
-
-    public float Frequency;
-    public float RandomFrequencyDeviation;
-
-    public float Height;
-    public float RandomHeightDeviation;
-
-    public bool SpawnRandomly;
+    private float SpriteWidth;
+    private float SpriteScale;
 
     public void Init()
     {
-        m_elementPools = new List<Pool<PoolableSprite>>();
-        foreach (PoolableSprite element in ElementPrefabs)
+        //Store the size of the collider along the x axis (its length in units).
+        SpriteScale = SpriteTemplate.transform.localScale.x;
+        SpriteWidth = SpriteTemplate.GetComponent<BoxCollider2D>().size.x;
+
+        int CountToSpawn = (int)(18f / SpriteWidth);
+        CountToSpawn = CountToSpawn == 0 ? 1 : CountToSpawn;
+
+        SpriteTemplate.sortingOrder = LayerOrder;
+
+        OrderedSprites = new List<SpriteRenderer>();
+        OrderedSprites.Add(SpriteTemplate);
+        for (int idx = 0; idx < CountToSpawn; ++idx)
         {
-            m_elementPools.Add(new Pool<PoolableSprite>(element, 5, 5, Pool<PoolableSprite>.EPoolType.GameObject));
+            OrderedSprites.Add(Object.Instantiate(SpriteTemplate));
+            OrderedSprites[idx + 1].transform.SetParent(SpriteTemplate.transform.parent);
+            OrderedSprites[idx + 1].transform.position = OrderedSprites[idx].transform.position + new Vector3(SpriteWidth * SpriteScale, 0f, 0f);
+            OrderedSprites[idx + 1].sortingOrder = LayerOrder;
         }
 
-        LastIndex = 0;
+        //List<SpriteRenderer> childs = SpriteTemplate.GetComponentsInChildren<SpriteRenderer>();
     }
 
-    private List<Pool<PoolableSprite>> m_elementPools;
-
-    private int LastIndex;
-    public Transform SpawnElement()
+    public void Update(float Velocity)
     {
-        PoolableSprite NextElement;
-        if (SpawnRandomly)
+        for (int idx = 0; idx < OrderedSprites.Count; ++idx)
         {
-            LastIndex = Random.Range(0, m_elementPools.Count);
-        } else
-        {
-            LastIndex++;
-        }
-            
-        if (m_elementPools[LastIndex].GetAvailable(false, out NextElement))
-        {
-            NextElement.transform.SetParent(LayerContainer.transform);
-            //Vector3 NextPos = LastTile.transform.position;
-            //NextPos.x += LastTile.Renderer.bounds.extents.x + NextTile.Renderer.bounds.extents.x;
-            //NextTile.transform.position = NextPos;
-
-            //LastTile = NextTile;
-            //ActiveTiles.Add(NextTile);
+            OrderedSprites[idx].transform.position -= new Vector3(Velocity * LayerSpeed, 0f, 0f);
         }
 
-        return null;
+        if (Velocity > 0f)
+        {
+            if (OrderedSprites[0].transform.position.x < -SpriteWidth * SpriteScale  * .5f - 18f)
+            {
+                SpriteRenderer temp = OrderedSprites[0];
+                temp.transform.position = OrderedSprites[OrderedSprites.Count - 1].transform.position + new Vector3(SpriteWidth * SpriteScale, 0f, 0f);
+                OrderedSprites.RemoveAt(0);
+                OrderedSprites.Add(temp);
+            }
+        }
+
+        if (Velocity < 0f)
+        {
+            if (OrderedSprites[OrderedSprites.Count - 1].transform.position.x > SpriteWidth * SpriteScale * .5f + 18f)
+            {
+                SpriteRenderer temp = OrderedSprites[OrderedSprites.Count - 1];
+                temp.transform.position = OrderedSprites[0].transform.position - new Vector3(SpriteWidth * SpriteScale, 0f, 0f);
+                OrderedSprites.RemoveAt(OrderedSprites.Count - 1);
+                OrderedSprites.Insert(0, temp);
+            }
+        }
     }
 }
 
@@ -68,14 +78,17 @@ public class ParallaxSystem : Singleton<ParallaxSystem>
 
     private void Start()
     {
-        foreach (ParallaxLayer Layer in Layers)
+        foreach (ParallaxLayer layer in Layers)
         {
-            Layer.Init();
+            layer.Init();
         }
     }
 
-    private void Update()
+    public void UpdateLayers(float Offset)
     {
-        
+        foreach (ParallaxLayer layer in Layers)
+        {
+            layer.Update(Offset);
+        }
     }
 }

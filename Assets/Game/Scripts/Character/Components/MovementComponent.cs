@@ -8,6 +8,8 @@ public class MovementComponent : MonoBehaviour
 
     [HideInInspector]
     public float Speed;
+    [HideInInspector]
+    public float Direction;
 
     public bool AuthXMove = true;
     public bool AuthYMove = false;
@@ -15,6 +17,13 @@ public class MovementComponent : MonoBehaviour
     public Vector2 LastVelocity { get { return m_lastVelocity; } }
     private Vector2 m_lastVelocity;
 
+    public float GetRelativeVelocity() { return Speed * Direction; }
+
+
+    private void Start()
+    {
+        Direction = 1f;
+    }
 
     public void ProcessMovement(Vector2 MovementDirection)
     {
