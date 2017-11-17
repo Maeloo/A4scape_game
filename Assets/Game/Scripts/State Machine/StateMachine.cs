@@ -21,20 +21,11 @@ public class StateMachine : MonoBehaviour
     public EStateType CurrentState { get { return m_currState; } }
     protected EStateType m_currState;
 
-    // Debug
-    protected Text DebugText;
-
-
-    private void Start()
-    {
-        DebugText = FindObjectOfType<Text>();
-    }
-
     private void Update()
     {
-        if (DebugText != null)
+        if (UIManager.Instance.DebugText != null)
         {
-            DebugText.text = m_currState.ToString();
+            UIManager.Instance.DebugText.text = m_currState.ToString();
         }
     }
 

@@ -26,6 +26,8 @@ public class Character : MonoBehaviour
     [HideInInspector]
     public float relativeVelocity;
 
+    protected InteractableCharacter _InteractableNPC;
+
 
     // Begin Play
     void Start()
@@ -67,6 +69,29 @@ public class Character : MonoBehaviour
     public Vector2 GetVelocity()
     {
         return _CharacterMovementComponent.LastVelocity;
+    }
+
+    public void TryInteract()
+    {
+        if (null != _InteractableNPC)
+        {
+            _InteractableNPC.StartInteracting();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        _InteractableNPC = collision.GetComponent<InteractableCharacter>();
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        InteractableCharacter npc = collision.GetComponent<InteractableCharacter>();
+        if (npc == _InteractableNPC)
+        {
+            _InteractableNPC.StopInteracting();
+            _InteractableNPC = null;
+        }
     }
 
 }
