@@ -18,15 +18,21 @@ public class Character : MonoBehaviour
 
     /* Components */
     protected MovementComponent _CharacterMovementComponent;
+    protected ThrowComponent _ThrowComponent;
 
     /* Getters */
     public Animator CharacterAnimator { get { return _CharacterAnimator; } }
     public MovementComponent CharacterMovementComponent { get { return _CharacterMovementComponent; } }
+    public ThrowComponent ThrowComponent { get { return _ThrowComponent; } }
+    public Controller CharacterController { get { return _CharacterController; } }
 
     [HideInInspector]
     public float relativeVelocity;
 
     protected InteractableCharacter _InteractableNPC;
+    protected InteractableItem _InteractableItem;
+
+    protected Dictionary<EItemType, bool> _Inventory;
 
 
     // Begin Play
@@ -35,9 +41,14 @@ public class Character : MonoBehaviour
         _CharacterController = GetComponent<Controller>();
         _CharacterMovementComponent = GetComponent<MovementComponent>();
         _CharacterAnimator = GetComponentInChildren<Animator>();
+        _ThrowComponent = GetComponent<ThrowComponent>();
+
+        _ThrowComponent.Initialise(this);
 
         _CharacterStateMachine = Instantiate<GameObject>(StateMachinePrefab).GetComponent<StateMachine>();
         _CharacterStateMachine.Init(this);
+
+        _Inventory = new Dictionary<EItemType, bool>();
     }
 
     public void HandleMovementInput(Vector2 Input)
@@ -79,19 +90,52 @@ public class Character : MonoBehaviour
         }
     }
 
+    public void TryPickUp()
+    {
+        if (null != _InteractableItem)
+        {
+            _Inventory.Add(_InteractableItem.PickUp(), true);
+        }
+    }
+
+    public void TryThrow()
+    {
+        if (_Inventory.ContainsKey(EItemType.Beer) && _Inventory[EItemType.Beer])
+        {
+            if (_ThrowComponent.StartThrow())
+            {
+                _CharacterStateMachine.RequestChangeState(EStateType.Throw);
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         _InteractableNPC = collision.GetComponent<InteractableCharacter>();
+        _InteractableItem = collision.GetComponent<InteractableItem>();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         InteractableCharacter npc = collision.GetComponent<InteractableCharacter>();
-        if (npc == _InteractableNPC)
+        if (npc == _InteractableNPC && null != _InteractableNPC)
         {
             _InteractableNPC.StopInteracting();
             _InteractableNPC = null;
+            return;
         }
+
+        InteractableItem item = collision.GetComponent<InteractableItem>();
+        if (item == _InteractableItem && null != _InteractableItem)
+        {
+            _InteractableItem = null;
+            return;
+        }
+    }
+
+    public bool RequestState(EStateType NewState)
+    {
+        return _CharacterStateMachine.RequestChangeState(NewState);
     }
 
 }

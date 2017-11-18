@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4877258715101572}
   - component: {fileID: 114278097088817044}
+  - component: {fileID: 114127865014994688}
   - component: {fileID: 114253570309815666}
   - component: {fileID: 114987132344620362}
   - component: {fileID: 50752348104353066}
@@ -39,6 +40,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4960558027807320}
+  - component: {fileID: 114769847810666850}
   - component: {fileID: 212892203457490098}
   - component: {fileID: 95017666028938418}
   m_Layer: 0
@@ -127,6 +129,21 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114127865014994688
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1177171080954052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc63d35ec304a44b9ea45482b386aef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ThrowRate: 0.2
+  ThrowForce: {x: 1250, y: 1000}
+  _ProjectileTemplate: {fileID: 1396615138010534, guid: 35394e0997a65614e8fefcc1e897b12a,
+    type: 2}
 --- !u!114 &114253570309815666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,6 +171,17 @@ MonoBehaviour:
   LeftBorderDistance: 150
   RightBorderDistance: 150
   relativeVelocity: 0
+--- !u!114 &114769847810666850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1971853871778086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a605fedb9663d654ba9b292a98c956a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114987132344620362
 MonoBehaviour:
   m_ObjectHideFlags: 1

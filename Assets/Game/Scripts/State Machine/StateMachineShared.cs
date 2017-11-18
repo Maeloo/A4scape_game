@@ -12,5 +12,6 @@ public enum EStateType
     Walk,
     Run,
     Turn,
-    Jump
+    Jump,
+    Throw
 };
