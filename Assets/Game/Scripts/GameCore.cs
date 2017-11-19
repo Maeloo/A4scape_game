@@ -26,4 +26,14 @@ public class GameCore : Singleton<GameCore>
         m_gameCamera = MainCamera.GetComponent<Camera>();
     }
 
+    public void AnswerA()
+    {
+        Debug.Log("AnswerA");
+    }
+
+    public void AnswerB()
+    {
+        Debug.Log("AnswerB");
+    }
+
 }

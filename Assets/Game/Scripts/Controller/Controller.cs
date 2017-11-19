@@ -35,6 +35,11 @@ public class Controller : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Attack_Pressed();
+        }
+
+        if (Input.GetKeyDown(KeyCode.End))
+        {
             Action_Pressed();
         }
     }
@@ -67,9 +72,14 @@ public class Controller : MonoBehaviour
         OwnerCharacter.TryPickUp();
     }
 
-    void Action_Pressed()
+    void Attack_Pressed()
     {
         OwnerCharacter.TryThrow();
+    }
+
+    void Action_Pressed()
+    {
+        OwnerCharacter.TryAction();   
     }
 
 }

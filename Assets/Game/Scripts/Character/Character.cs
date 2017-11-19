@@ -109,6 +109,14 @@ public class Character : MonoBehaviour
         }
     }
 
+    public void TryAction()
+    {
+        if (null != _InteractableNPC)
+        {
+            _InteractableNPC.Interact();
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         _InteractableNPC = collision.GetComponent<InteractableCharacter>();
