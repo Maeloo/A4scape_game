@@ -6,16 +6,37 @@ using UnityEngine;
 public class IdleState : BaseState
 {
 
+    protected float WantedSpeed;
+    protected float Acceleration;
+
     public override EStateType GetStateType() { return EStateType.Idle; }
 
     public override void OnEnter()
     {
         OwnerCharacter.CharacterAnimator.SetTrigger("StateChangedToIdle");
-        OwnerCharacter.CharacterMovementComponent.Speed = 0f;
+        WantedSpeed = 0f;
+        Acceleration = 4f;
     }
 
     protected void Update()
     {
+        if (OwnerCharacter.CharacterMovementComponent.Speed < WantedSpeed)
+        {
+            OwnerCharacter.CharacterMovementComponent.Speed += Time.deltaTime * Acceleration;
+        }
+        else if (OwnerCharacter.CharacterMovementComponent.Speed > WantedSpeed)
+        {
+            OwnerCharacter.CharacterMovementComponent.Speed -= Time.deltaTime * Acceleration;
+        }
+
+        OwnerCharacter.CharacterMovementComponent.Speed = Mathf.Clamp(OwnerCharacter.CharacterMovementComponent.Speed, 0f, WantedSpeed);
+
+        // HACK FIX
+        if (GetStateType() == EStateType.Idle)
+        {
+            OwnerCharacter.CharacterAnimator.SetTrigger("StateChangedToIdle");
+        }
+
         float forwardDir = Mathf.Sign(OwnerCharacter.CharacterAnimator.transform.localScale.x);
         float velocitydDir = Mathf.Sign(OwnerCharacter.CharacterMovementComponent.LastVelocity.x);
 

@@ -38,7 +38,7 @@ public class Controller : MonoBehaviour
             Attack_Pressed();
         }
 
-        if (Input.GetKeyDown(KeyCode.End))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             Action_Pressed();
         }

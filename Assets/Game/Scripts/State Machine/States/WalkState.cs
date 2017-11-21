@@ -13,7 +13,8 @@ public class WalkState : IdleState
     public override void OnEnter()
     {
         OwnerCharacter.CharacterAnimator.SetTrigger("StateChangedToWalk");
-        OwnerCharacter.CharacterMovementComponent.Speed = WalkSpeed;
+        WantedSpeed = WalkSpeed;
+        Acceleration = 1.5f;
     }
 
     public override void HandleMovementInput(Vector2 PlayerInput)

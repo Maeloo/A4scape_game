@@ -16,5 +16,9 @@ public class UIManager : Singleton<UIManager>
     protected Text _DebugText;
     public Text DebugText { get { return _DebugText; } }
 
+    [SerializeField]
+    protected Text _KillsText;
+    public Text KillsText { get { return _KillsText; } }
+
 
 }

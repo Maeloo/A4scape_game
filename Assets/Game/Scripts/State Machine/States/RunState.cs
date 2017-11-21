@@ -12,7 +12,8 @@ public class RunState : IdleState
     public override void OnEnter()
     {
         OwnerCharacter.CharacterAnimator.SetTrigger("StateChangedToRun");
-        OwnerCharacter.CharacterMovementComponent.Speed = RunSpeed;
+        WantedSpeed = RunSpeed;
+        Acceleration = 4f;
     }
 
     public override void HandleMovementInput(Vector2 PlayerInput)

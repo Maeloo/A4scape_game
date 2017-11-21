@@ -49,8 +49,9 @@ public class Bird : MonoBehaviour
             bAlive = false;
 
             Vector3 impactDirection = transform.position - collision.transform.position;
-
             gameObject.AddComponent<Rigidbody2D>().AddForce(impactDirection * 100f);
+
+            GameCore.Instance.OnBirdKilled();
         }        
     }
 }

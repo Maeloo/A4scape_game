@@ -15,6 +15,7 @@ public class ParallaxLayer
     private float SpriteWidth;
     private float SpriteScale;
 
+
     public void Init()
     {
         //Store the size of the collider along the x axis (its length in units).
@@ -35,8 +36,6 @@ public class ParallaxLayer
             OrderedSprites[idx + 1].transform.position = OrderedSprites[idx].transform.position + new Vector3(SpriteWidth * SpriteScale, 0f, 0f);
             OrderedSprites[idx + 1].sortingOrder = LayerOrder;
         }
-
-        //List<SpriteRenderer> childs = SpriteTemplate.GetComponentsInChildren<SpriteRenderer>();
     }
 
     public void Update(float Velocity)
@@ -75,6 +74,8 @@ public class ParallaxSystem : Singleton<ParallaxSystem>
 
     public List<ParallaxLayer> Layers;
 
+    private Gojira[] Gojiras;
+
 
     private void Start()
     {
@@ -82,6 +83,8 @@ public class ParallaxSystem : Singleton<ParallaxSystem>
         {
             layer.Init();
         }
+
+        Gojiras = FindObjectsOfType<Gojira>();
     }
 
     public void UpdateLayers(float Offset)
@@ -89,6 +92,11 @@ public class ParallaxSystem : Singleton<ParallaxSystem>
         foreach (ParallaxLayer layer in Layers)
         {
             layer.Update(Offset);
+        }
+
+        foreach (Gojira gojira in Gojiras)
+        {
+            gojira.OnCameraMovement(Offset);
         }
     }
 }
