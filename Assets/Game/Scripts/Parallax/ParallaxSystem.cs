@@ -9,7 +9,6 @@ public class ParallaxLayer
     public SpriteRenderer SpriteTemplate;
     private List<SpriteRenderer> OrderedSprites;
 
-    public int LayerOrder;
     public float LayerSpeed;
 
     private float SpriteWidth;
@@ -25,8 +24,6 @@ public class ParallaxLayer
         int CountToSpawn = (int)(18f / SpriteWidth);
         CountToSpawn = CountToSpawn == 0 ? 1 : CountToSpawn;
 
-        SpriteTemplate.sortingOrder = LayerOrder;
-
         OrderedSprites = new List<SpriteRenderer>();
         OrderedSprites.Add(SpriteTemplate);
         for (int idx = 0; idx < CountToSpawn; ++idx)
@@ -34,7 +31,6 @@ public class ParallaxLayer
             OrderedSprites.Add(Object.Instantiate(SpriteTemplate));
             OrderedSprites[idx + 1].transform.SetParent(SpriteTemplate.transform.parent);
             OrderedSprites[idx + 1].transform.position = OrderedSprites[idx].transform.position + new Vector3(SpriteWidth * SpriteScale, 0f, 0f);
-            OrderedSprites[idx + 1].sortingOrder = LayerOrder;
         }
     }
 

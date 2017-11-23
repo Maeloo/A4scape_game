@@ -94,7 +94,13 @@ public class Character : MonoBehaviour
     {
         if (null != _InteractableItem)
         {
-            _Inventory.Add(_InteractableItem.PickUp(), true);
+            int count;
+            GameObject prefab;
+            EItemType item = _InteractableItem.PickUp(out count, out prefab);
+
+            _Inventory.Add(item, true);
+
+            ThrowComponent.Reload(count, prefab);
         }
     }
 
@@ -121,6 +127,11 @@ public class Character : MonoBehaviour
     {
         _InteractableNPC = collision.GetComponent<InteractableCharacter>();
         _InteractableItem = collision.GetComponent<InteractableItem>();
+
+        if (collision.CompareTag("Meteor"))
+        {
+            Debug.Log("Hit by a meteor");
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

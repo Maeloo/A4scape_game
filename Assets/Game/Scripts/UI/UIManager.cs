@@ -20,5 +20,8 @@ public class UIManager : Singleton<UIManager>
     protected Text _KillsText;
     public Text KillsText { get { return _KillsText; } }
 
+    [SerializeField]
+    protected Text _BeersText;
+    public Text BeersText { get { return _BeersText; } }
 
 }

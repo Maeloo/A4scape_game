@@ -11,19 +11,19 @@ public class Gojira : MonoBehaviour
     protected float time = 0f;
     protected float BaseHeight = 0f;
 
-    void OnStart()
+    void Start()
     {
-        BaseHeight = transform.position.y;
+        BaseHeight = transform.localPosition.y;
     }
 
     public void OnCameraMovement(float Offset)
     {
         time += Speed * Offset;
 
-        Vector3 newPosition = transform.position;
+        Vector3 newPosition = transform.localPosition;
         newPosition.y = BaseHeight + Mathf.Sin(time) * Amplitude;
 
-        transform.position = newPosition;
+        transform.localPosition = newPosition;
     }
 
 }

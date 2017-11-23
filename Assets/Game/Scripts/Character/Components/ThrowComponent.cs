@@ -9,17 +9,26 @@ public class ThrowComponent : MonoBehaviour
     public float ThrowRate = 1f;
     public Vector2 ThrowForce;
 
-    [SerializeField]
     protected GameObject _ProjectileTemplate;
 
     protected Character _OwnerCharacter;
 
     protected float _Cooldown;
 
+    protected int _ProjectileCount = 0;
+
 
     public void Initialise(Character Owner)
     {
         _OwnerCharacter = Owner;
+    }
+
+    public void Reload(int count, GameObject prefab)
+    {
+        _ProjectileTemplate = prefab;
+        _ProjectileCount = count;
+
+        UIManager.Instance.BeersText.text = count.ToString();
     }
 
     void Start ()
@@ -35,7 +44,7 @@ public class ThrowComponent : MonoBehaviour
 
     public bool StartThrow()
     {
-        if (_Cooldown <= 0f)
+        if (_Cooldown <= 0f && _ProjectileCount > 0)
         {
             _Cooldown = ThrowRate;
             return true;
@@ -52,5 +61,8 @@ public class ThrowComponent : MonoBehaviour
         Force.x *= _OwnerCharacter.CharacterMovementComponent.Direction;
 
         projectile.GetComponent<Rigidbody2D>().AddForce(Force);
+
+        _ProjectileCount--;
+        UIManager.Instance.BeersText.text = _ProjectileCount.ToString();
     }
 }

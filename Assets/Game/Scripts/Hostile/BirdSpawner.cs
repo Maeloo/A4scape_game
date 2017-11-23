@@ -11,7 +11,7 @@ public class BirdSpawner : Singleton<BirdSpawner>
 
     public GameObject BirdPrefab;
 
-    protected float _lastSpawnTime = 30f;
+    protected float _lastSpawnTime; //= 30f;
 
 
 	void Update ()

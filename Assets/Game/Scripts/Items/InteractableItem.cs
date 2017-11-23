@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,9 @@ public class InteractableItem : MonoBehaviour
     [SerializeField]
     protected EItemType Type;
 
+    public int ItemCount = 5;
+    public GameObject ItemPrefab;
+
 
     public void Initialise()
     {
@@ -23,11 +27,13 @@ public class InteractableItem : MonoBehaviour
     }
 
 
-    public EItemType PickUp()
+    public EItemType PickUp(out int count, out GameObject prefabRef)
     {
-        //TODO: fade
         gameObject.SetActive(false);
-        //GetComponent<BoxCollider2D>().enabled = false;
+
+        count = ItemCount;
+        prefabRef = ItemPrefab;
+        
         return Type;
     }
 
