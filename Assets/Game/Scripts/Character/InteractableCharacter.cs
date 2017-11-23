@@ -7,11 +7,13 @@ public class InteractableCharacter : MonoBehaviour
 {
 
     public Transform DialogBoxAnchor;
-    public DialogueWrapper[] ActiveDialogue;
+
+    protected DialogueWrapper[] ActiveDialogue;
 
     protected int _currentDialogueIndex;
 
     protected bool bActive;
+    protected bool bHasDialogue;
 
 
     private void Update()
@@ -30,18 +32,22 @@ public class InteractableCharacter : MonoBehaviour
         }
     }
 
+    public void SetDialogue(DialogueWrapper[] NewDialogue)
+    {
+        ActiveDialogue = NewDialogue;
+        bHasDialogue = ActiveDialogue.Length > 0;
+    }
+
     public void StartInteracting()
     {
-        if (bActive || ActiveDialogue.Length == 0)
+        if (bActive || ActiveDialogue == null || ActiveDialogue.Length == 0)
         {
             return;
         }
 
         Vector3 DBScreenPosition = GameCore.Instance.GameCamera.WorldToScreenPoint(DialogBoxAnchor.position);
 
-        _currentDialogueIndex = 0;
-
-        UpdateDialogueBox();
+        RefreshDialogue();
 
         UIManager.Instance.DialogueBox.transform.position = DBScreenPosition;
         UIManager.Instance.DialogueBox.SetActive(true);
@@ -54,10 +60,17 @@ public class InteractableCharacter : MonoBehaviour
         if (bActive)
         {
             _currentDialogueIndex++;
-            _currentDialogueIndex = Mathf.Min(_currentDialogueIndex, ActiveDialogue.Length);
+            _currentDialogueIndex = Mathf.Min(_currentDialogueIndex, ActiveDialogue.Length - 1);
 
             UpdateDialogueBox();
         }
+    }
+
+    public void RefreshDialogue()
+    {
+        _currentDialogueIndex = 0;
+
+        UpdateDialogueBox();
     }
 
     protected void UpdateDialogueBox()

@@ -7,6 +7,9 @@ TagManager:
   - Projectile
   - Beer
   - Meteor
+  - Landlord
+  - Drunkard
+  - Doggo
   layers:
   - Default
   - TransparentFX

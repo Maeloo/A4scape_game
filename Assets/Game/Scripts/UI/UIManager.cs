@@ -24,4 +24,22 @@ public class UIManager : Singleton<UIManager>
     protected Text _BeersText;
     public Text BeersText { get { return _BeersText; } }
 
+    [SerializeField]
+    protected RawImage FadeInOut;
+
+    private void Start()
+    {
+        FadeInOut.CrossFadeColor(new Color(0f, 0f, 0f, 0f), 1f, true, true);
+    }
+
+    public void FadeOut()
+    {
+        FadeInOut.CrossFadeColor(new Color(0f, 0f, 0f, 1f), 1f, true, true);
+    }
+
+    public void FadeIn()
+    {
+        FadeInOut.CrossFadeColor(new Color(0f, 0f, 0f, 0f), 1f, true, true);
+    }
+
 }

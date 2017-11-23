@@ -28,7 +28,7 @@ public class ThrowComponent : MonoBehaviour
         _ProjectileTemplate = prefab;
         _ProjectileCount = count;
 
-        UIManager.Instance.BeersText.text = count.ToString();
+        UIManager.Instance.BeersText.text = _ProjectileCount.ToString();
     }
 
     void Start ()

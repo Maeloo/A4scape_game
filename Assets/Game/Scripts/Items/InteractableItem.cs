@@ -20,20 +20,30 @@ public class InteractableItem : MonoBehaviour
     public int ItemCount = 5;
     public GameObject ItemPrefab;
 
+    bool bActive = true;
 
-    public void Initialise()
+
+    private void Start()
     {
-        //TODO: Start animation
+        ToggleActive();
     }
 
+    public void ToggleActive()
+    {
+        bActive = !bActive;
+        GetComponent<BoxCollider2D>().enabled = bActive;
+        GetComponent<SpriteRenderer>().enabled = bActive;
+    }
 
     public EItemType PickUp(out int count, out GameObject prefabRef)
     {
-        gameObject.SetActive(false);
+        ToggleActive();
 
         count = ItemCount;
         prefabRef = ItemPrefab;
-        
+
+        Invoke("ToggleActive", 30f);
+
         return Type;
     }
 
