@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 
 public class GameCore : Singleton<GameCore>
@@ -24,6 +25,8 @@ public class GameCore : Singleton<GameCore>
 	// Start Game
 	void Start ()
     {
+        DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
+
         m_player = Instantiate<GameObject>(PlayerPrefab).GetComponent<Character>();
         m_gameCamera = MainCamera.GetComponent<Camera>();
 
@@ -120,7 +123,11 @@ public class GameCore : Singleton<GameCore>
     {
         //Debug.Log("A_Doggo_1_Yes");
         GameCore.Instance.Player.StopInterracting();
+        GameCore.Instance.Player.CharacterController.SetIgnoreInput(true);
+        GameCore.Instance.Player.CharacterController.SetIgnoreMove(true);
+
         UIManager.Instance.FadeOut();
+
         Invoke("OnFadeTransition", 1.5f);
     }
 
@@ -153,7 +160,22 @@ public class GameCore : Singleton<GameCore>
 
     protected void OnFadeTransition()
     {
+        GameObject[] t1_elements = GameObject.FindGameObjectsWithTag("T1");
+        foreach (GameObject el in t1_elements)
+        {
+            el.SetActive(false);
+        }
+
+        GameObject[] t2_elements = GameObject.FindGameObjectsWithTag("T2");
+        foreach (GameObject el in t2_elements)
+        {
+            el.SetActive(true);
+        }
+
         UIManager.Instance.FadeIn();
+
+        GameCore.Instance.Player.CharacterController.ResetIgnoreInput();
+        GameCore.Instance.Player.CharacterController.ResetIgnoreMove();
     }
 
 }

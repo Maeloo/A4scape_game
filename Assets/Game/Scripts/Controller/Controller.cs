@@ -9,6 +9,9 @@ public class Controller : MonoBehaviour
     protected int _IgnoreMoves;
     public bool IsMoveIgnored { get { return _IgnoreMoves > 0; } }
 
+    protected int _IgnoreInput;
+    public bool IgnoreInput { get { return _IgnoreInput > 0; } }
+
     protected Character OwnerCharacter;
 
     public Vector2 LastInput { get { return m_lastInput; } }
@@ -42,6 +45,24 @@ public class Controller : MonoBehaviour
         {
             Action_Pressed();
         }
+    }
+
+    public void SetIgnoreInput(bool bIgnore)
+    {
+        if (bIgnore)
+        {
+            _IgnoreInput++;
+        }
+        else
+        {
+            _IgnoreInput--;
+            _IgnoreInput = Mathf.Max(0, _IgnoreMoves);
+        }
+    }
+
+    public void ResetIgnoreInput()
+    {
+        _IgnoreInput = 0;
     }
 
     public void SetIgnoreMove(bool bIgnore)

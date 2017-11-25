@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 
 public class UIManager : Singleton<UIManager>
@@ -40,6 +41,13 @@ public class UIManager : Singleton<UIManager>
     public void FadeIn()
     {
         FadeInOut.CrossFadeColor(new Color(0f, 0f, 0f, 0f), 1f, true, true);
+    }
+
+
+    public void DisplayBeerCount(bool bDisplay)
+    {
+        Transform beerContainer = BeersText.transform.parent;
+        beerContainer.DOMoveX(bDisplay ? -90f : 90f, 1f).SetEase(Ease.InOutExpo);
     }
 
 }
