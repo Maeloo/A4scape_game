@@ -18,31 +18,43 @@ public class UIDialogueBox : MonoBehaviour
     protected RawImage ImageB;
     [SerializeField]
     protected RawImage Portait;
+    [SerializeField]
+    protected GameObject NextObj;
+
+    protected Texture[] _animPortrait;
+    protected int _currentPortrait;
+    protected float _cooldownPortrait;
+    public float _ratePortrait = 2f;
 
 
-    public void UpateDialogue(string DialogueText, Texture SpritePortrait, string AnswerA = "", string AnswerB = "", Texture SpriteA = null, Texture SpriteB = null)
+    public void UpateDialogue(string DialogueText, Texture[] SpritePortraits, string AnswerA, string AnswerB, bool bAnswerA, bool bAnswerB, bool bNext)
     {
         MainText.text = DialogueText;
 
         AnswerAText.text = AnswerA;
         AnswerBText.text = AnswerB;
 
-        Portait.gameObject.SetActive(SpritePortrait != null);
-        if (Portait.gameObject.activeSelf)
-        {
-            Portait.texture = SpritePortrait;
-        }
+        _animPortrait = SpritePortraits;
+        _currentPortrait = 0;
+        _cooldownPortrait = 1f / _ratePortrait;
 
-        ImageA.gameObject.SetActive(SpriteA != null);
-        if (ImageA.gameObject.activeSelf)
+        Portait.texture = _animPortrait[_currentPortrait];
+
+        ImageA.gameObject.SetActive(bAnswerA);        
+        ImageB.gameObject.SetActive(bAnswerB);
+
+        NextObj.SetActive(bNext);
+    }
+
+    private void Update()
+    {
+        _cooldownPortrait -= Time.deltaTime;
+        if (_cooldownPortrait <= 0f)
         {
-            ImageA.texture = SpriteA;
-        }
-        
-        ImageB.gameObject.SetActive(SpriteB != null);
-        if (ImageB.gameObject.activeSelf)
-        {
-            ImageB.texture = SpriteB;
+            _cooldownPortrait = 1f / _ratePortrait;
+            _currentPortrait = _currentPortrait + 1 >= _animPortrait.Length ? 0 : _currentPortrait + 1;
+
+            Portait.texture = _animPortrait[_currentPortrait];
         }
     }
 

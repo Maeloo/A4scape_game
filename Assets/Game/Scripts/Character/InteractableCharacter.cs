@@ -18,6 +18,9 @@ public class InteractableCharacter : MonoBehaviour
     [SerializeField]
     protected GameObject _ButtonIcon;
 
+    [SerializeField]
+    protected Texture[] PortraitSprites;
+
 
     private void Start()
     {
@@ -26,6 +29,11 @@ public class InteractableCharacter : MonoBehaviour
 
     public void OnPlayerTriggered(bool bTriggered)
     {
+        if(ActiveDialogue == null || (bTriggered && ActiveDialogue.Length == 0))
+        {
+            return;
+        }
+
         _ButtonIcon.SetActive(bTriggered);
     }
 
@@ -90,11 +98,12 @@ public class InteractableCharacter : MonoBehaviour
     {
         UIManager.Instance.Dialogue.UpateDialogue(
             ActiveDialogue[_currentDialogueIndex].DialogueText,
-            ActiveDialogue[_currentDialogueIndex].Portrait,
+            PortraitSprites,
             ActiveDialogue[_currentDialogueIndex].DialogueAnswers[0].AnswerText,
             ActiveDialogue[_currentDialogueIndex].DialogueAnswers[1].AnswerText,
-            ActiveDialogue[_currentDialogueIndex].DialogueAnswers[0].AnswerSprite,
-            ActiveDialogue[_currentDialogueIndex].DialogueAnswers[1].AnswerSprite
+            ActiveDialogue[_currentDialogueIndex].bAnswer1,
+            ActiveDialogue[_currentDialogueIndex].bAnswer2,
+            ActiveDialogue[_currentDialogueIndex].bNext
             );
     }
 

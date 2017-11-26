@@ -10,10 +10,10 @@ TagManager:
   - Landlord
   - Drunkard
   - Doggo
-  - Landlord_Futur
   - Doggo_Futur
   - T1
   - T2
+  - Landlord_evil
   layers:
   - Default
   - TransparentFX
