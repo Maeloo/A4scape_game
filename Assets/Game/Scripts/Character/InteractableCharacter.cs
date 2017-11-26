@@ -41,12 +41,15 @@ public class InteractableCharacter : MonoBehaviour
     {
         if (bActive && ActiveDialogue.Length > 0)
         {
-            if (Input.GetKeyDown(ActiveDialogue[_currentDialogueIndex].DialogueAnswers[0].AnswerInput))
+            Vector3 DBScreenPosition = GameCore.Instance.GameCamera.WorldToScreenPoint(DialogBoxAnchor.position);
+            UIManager.Instance.DialogueBox.transform.position = DBScreenPosition;
+
+            if (ActiveDialogue[_currentDialogueIndex].bAnswer1 && Input.GetButtonDown(ActiveDialogue[_currentDialogueIndex].DialogueAnswers[0].AnswerInput))
             {
                 GameCore.Instance.SendMessage(ActiveDialogue[_currentDialogueIndex].DialogueAnswers[0].AnswerCallback);
             }
 
-            if (Input.GetKeyDown(ActiveDialogue[_currentDialogueIndex].DialogueAnswers[1].AnswerInput))
+            if (ActiveDialogue[_currentDialogueIndex].bAnswer2 && Input.GetButtonDown(ActiveDialogue[_currentDialogueIndex].DialogueAnswers[1].AnswerInput))
             {
                 GameCore.Instance.SendMessage(ActiveDialogue[_currentDialogueIndex].DialogueAnswers[1].AnswerCallback);
             }
@@ -66,12 +69,9 @@ public class InteractableCharacter : MonoBehaviour
             return;
         }
 
-        Vector3 DBScreenPosition = GameCore.Instance.GameCamera.WorldToScreenPoint(DialogBoxAnchor.position);
-
         RefreshDialogue();
 
-        UIManager.Instance.DialogueBox.transform.position = DBScreenPosition;
-        UIManager.Instance.DialogueBox.SetActive(true);
+        UIManager.Instance.DisplayDialogue(true);
 
         bActive = true;
     }
@@ -109,8 +109,14 @@ public class InteractableCharacter : MonoBehaviour
 
     public void StopInteracting()
     {
-        UIManager.Instance.DialogueBox.SetActive(false);
+        UIManager.Instance.DisplayDialogue(false);
 
+        Invoke("OnStoppedInterracting", .5f);
+        
+    }
+
+    void OnStoppedInterracting()
+    {
         bActive = false;
     }
 

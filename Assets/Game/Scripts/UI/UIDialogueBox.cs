@@ -49,7 +49,7 @@ public class UIDialogueBox : MonoBehaviour
     private void Update()
     {
         _cooldownPortrait -= Time.deltaTime;
-        if (_cooldownPortrait <= 0f)
+        if (_cooldownPortrait <= 0f && _animPortrait != null)
         {
             _cooldownPortrait = 1f / _ratePortrait;
             _currentPortrait = _currentPortrait + 1 >= _animPortrait.Length ? 0 : _currentPortrait + 1;

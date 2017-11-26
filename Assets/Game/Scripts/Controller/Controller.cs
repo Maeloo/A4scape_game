@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class Controller : MonoBehaviour
@@ -26,29 +27,35 @@ public class Controller : MonoBehaviour
     {
         m_lastInput = IsMoveIgnored ? Vector2.zero : new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        if (Input.GetKeyDown(KeyCode.UpArrow)) // Y
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetButtonDown("Y")) // Y
         {
             Interact_Pressed();
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow)) // B
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetButtonDown("B")) // B
         {
             PickUp_Pressed();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))  // X
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("X"))  // X
         {
             Attack_Pressed();
         }
 
-        if (Input.GetKeyDown(KeyCode.Return)) // A
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("A")) // A
         {
             Action_Pressed();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Start")) // Start
         {
             GameCore.Instance.TogglePause();
+        }
+
+        if ((Input.GetKeyDown(KeyCode.Delete) || Input.GetButtonDown("Select")) && GameCore.Instance.GamePaused) // Select
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(0);
         }
     }
 

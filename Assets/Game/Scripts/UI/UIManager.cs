@@ -32,13 +32,28 @@ public class UIManager : Singleton<UIManager>
     protected RectTransform _Popup;
     public Text ObjectiveText { get { return _Popup.GetComponentInChildren<Text>(); } }
 
+    [SerializeField]
+    protected CanvasGroup _Pause;
+
     private void Start()
     {
         DisplayBeerCount(false);
         DisplayBirdCount(false);
-        //DisplayPopup(false);
+        DisplayPause(false);
+        DisplayDialogue(false);
 
         Invoke("OnStart", 1f);
+    }
+
+    public void DisplayPause(bool bDisplay)
+    {
+        DOTween.defaultTimeScaleIndependent = bDisplay;
+        _Pause.DOFade(bDisplay ? 1f : 0f, .5f).SetEase(Ease.InOutCirc).timeScale = 1f;
+    }
+
+    public void DisplayDialogue(bool bDisplay)
+    {
+        _DialogueBox.GetComponent<CanvasGroup>().DOFade(bDisplay ? 1f : 0f, .5f).SetEase(Ease.InOutCirc);
     }
 
     void OnStart()

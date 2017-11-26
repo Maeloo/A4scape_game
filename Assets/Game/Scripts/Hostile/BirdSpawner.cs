@@ -28,7 +28,7 @@ public class BirdSpawner : Singleton<BirdSpawner>
     
     void SpawnBird()
     {
-        Instantiate(BirdPrefab, new Vector3(GameCore.Instance.Player.transform.position.x + 40f, Random.Range(-RandomHeightOffset, RandomHeightOffset), 0f), Quaternion.identity).transform.SetParent(BirdParent);
+        Instantiate(BirdPrefab, new Vector3(GameCore.Instance.Player.transform.position.x + 20f, Random.Range(-RandomHeightOffset, RandomHeightOffset), 0f), Quaternion.identity).transform.SetParent(BirdParent);
 
         _lastSpawnTime = Frequency + Random.Range(-RandomDeviation, RandomDeviation);
     }
