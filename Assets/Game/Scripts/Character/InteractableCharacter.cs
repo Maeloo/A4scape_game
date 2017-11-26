@@ -15,6 +15,19 @@ public class InteractableCharacter : MonoBehaviour
     protected bool bActive;
     protected bool bHasDialogue;
 
+    [SerializeField]
+    protected GameObject _ButtonIcon;
+
+
+    private void Start()
+    {
+        _ButtonIcon.SetActive(false);
+    }
+
+    public void OnPlayerTriggered(bool bTriggered)
+    {
+        _ButtonIcon.SetActive(bTriggered);
+    }
 
     private void Update()
     {
@@ -77,6 +90,7 @@ public class InteractableCharacter : MonoBehaviour
     {
         UIManager.Instance.Dialogue.UpateDialogue(
             ActiveDialogue[_currentDialogueIndex].DialogueText,
+            ActiveDialogue[_currentDialogueIndex].Portrait,
             ActiveDialogue[_currentDialogueIndex].DialogueAnswers[0].AnswerText,
             ActiveDialogue[_currentDialogueIndex].DialogueAnswers[1].AnswerText,
             ActiveDialogue[_currentDialogueIndex].DialogueAnswers[0].AnswerSprite,

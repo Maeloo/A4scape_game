@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 
 public class Character : MonoBehaviour
@@ -12,6 +13,7 @@ public class Character : MonoBehaviour
     public float LeftBorderDistance = 150f;
     public float RightBorderDistance = 150f;
 
+    protected SpriteRenderer _Renderer;
     protected StateMachine _CharacterStateMachine;
     protected Controller _CharacterController;
     protected Animator _CharacterAnimator;
@@ -34,6 +36,8 @@ public class Character : MonoBehaviour
 
     protected Dictionary<EItemType, bool> _Inventory;
 
+    protected bool bInvincible;
+
 
     // Begin Play
     void Start()
@@ -42,6 +46,7 @@ public class Character : MonoBehaviour
         _CharacterMovementComponent = GetComponent<MovementComponent>();
         _CharacterAnimator = GetComponentInChildren<Animator>();
         _ThrowComponent = GetComponent<ThrowComponent>();
+        _Renderer = GetComponentInChildren<SpriteRenderer>();
 
         _ThrowComponent.Initialise(this);
 
@@ -69,7 +74,8 @@ public class Character : MonoBehaviour
     {
         Vector3 characterScreenPosition = GameCore.Instance.GameCamera.WorldToScreenPoint(transform.position);
         if ((characterScreenPosition.x <= LeftBorderDistance && _CharacterMovementComponent.LastVelocity.x < 0f) ||
-            (characterScreenPosition.x >= Screen.width - RightBorderDistance && _CharacterMovementComponent.LastVelocity.x > 0f))
+            (characterScreenPosition.x >= Screen.width - RightBorderDistance && _CharacterMovementComponent.LastVelocity.x > 0f) &&
+            _CharacterStateMachine.CurrentState == EStateType.Run)
         {
             ParallaxSystem.Instance.UpdateLayers(_CharacterMovementComponent.Direction);
 
@@ -101,6 +107,13 @@ public class Character : MonoBehaviour
             if(!_Inventory.ContainsKey(item))
             {
                 _Inventory.Add(item, true);
+
+                if(item == EItemType.Beer)
+                {
+                    UIManager.Instance.DisplayBeerCount(true);
+                    UIManager.Instance.ObjectiveText.text = DialogueData.Objective_4;
+                    UIManager.Instance.DisplayPopup(true);
+                }
             }            
 
             ThrowComponent.Reload(count, prefab);
@@ -132,17 +145,42 @@ public class Character : MonoBehaviour
         if (null != npc)
         {
             _InteractableNPC = npc;
+            _InteractableNPC.OnPlayerTriggered(true);
         }
 
         InteractableItem item = collision.GetComponent<InteractableItem>();
         if (null != item)
         {
             _InteractableItem = item;
+            _InteractableItem.OnPlayerTriggered(true);
         }        
+    }
 
-        if (collision.CompareTag("Meteor"))
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!bInvincible && collision.CompareTag("Meteor"))
         {
-            Debug.Log("Hit by a meteor");
+            //Debug.Log("Hit by a meteor");
+            Destroy(collision.transform.parent.gameObject);
+
+            Vector3 newPosition = transform.position;
+            newPosition.x -= 1f * _CharacterMovementComponent.Direction;
+
+            _CharacterController.SetIgnoreInput(true);
+            _CharacterController.SetIgnoreMove(true);
+
+            bInvincible = true;
+            _Renderer.DOFade(.7f, .3f).SetEase(Ease.InOutQuad).SetLoops(10).OnComplete(() =>
+            {
+                bInvincible = false;
+                _Renderer.DOFade(1f, .0f);
+            });
+
+            transform.DOMoveX(newPosition.x, .5f).SetEase(Ease.OutQuad).OnComplete(() =>
+            {
+                _CharacterController.SetIgnoreInput(false);
+                _CharacterController.SetIgnoreMove(false);
+            });
         }
     }
 
@@ -160,6 +198,7 @@ public class Character : MonoBehaviour
         if (npc == _InteractableNPC && null != _InteractableNPC)
         {
             _InteractableNPC.StopInteracting();
+            _InteractableNPC.OnPlayerTriggered(false);
             _InteractableNPC = null;
             return;
         }
@@ -167,6 +206,7 @@ public class Character : MonoBehaviour
         InteractableItem item = collision.GetComponent<InteractableItem>();
         if (item == _InteractableItem && null != _InteractableItem)
         {
+            _InteractableItem.OnPlayerTriggered(false);
             _InteractableItem = null;
             return;
         }

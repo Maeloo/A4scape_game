@@ -61,6 +61,7 @@ public class ThrowComponent : MonoBehaviour
         Force.x *= _OwnerCharacter.CharacterMovementComponent.Direction;
 
         projectile.GetComponent<Rigidbody2D>().AddForce(Force);
+        projectile.GetComponent<Rigidbody2D>().AddTorque(1500f);
 
         _ProjectileCount--;
         UIManager.Instance.BeersText.text = _ProjectileCount.ToString();

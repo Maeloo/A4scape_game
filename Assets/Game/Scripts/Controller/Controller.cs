@@ -45,6 +45,11 @@ public class Controller : MonoBehaviour
         {
             Action_Pressed();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameCore.Instance.TogglePause();
+        }
     }
 
     public void SetIgnoreInput(bool bIgnore)

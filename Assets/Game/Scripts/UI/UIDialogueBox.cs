@@ -16,14 +16,22 @@ public class UIDialogueBox : MonoBehaviour
     protected RawImage ImageA;
     [SerializeField]
     protected RawImage ImageB;
+    [SerializeField]
+    protected RawImage Portait;
 
 
-    public void UpateDialogue(string DialogueText, string AnswerA = "", string AnswerB = "", Texture SpriteA = null, Texture SpriteB = null)
+    public void UpateDialogue(string DialogueText, Texture SpritePortrait, string AnswerA = "", string AnswerB = "", Texture SpriteA = null, Texture SpriteB = null)
     {
         MainText.text = DialogueText;
 
         AnswerAText.text = AnswerA;
         AnswerBText.text = AnswerB;
+
+        Portait.gameObject.SetActive(SpritePortrait != null);
+        if (Portait.gameObject.activeSelf)
+        {
+            Portait.texture = SpritePortrait;
+        }
 
         ImageA.gameObject.SetActive(SpriteA != null);
         if (ImageA.gameObject.activeSelf)

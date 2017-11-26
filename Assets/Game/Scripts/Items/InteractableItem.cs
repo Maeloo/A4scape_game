@@ -22,10 +22,20 @@ public class InteractableItem : MonoBehaviour
 
     bool bActive = true;
 
+    [SerializeField]
+    protected GameObject _ButtonIcon;
+
 
     private void Start()
     {
+        _ButtonIcon.SetActive(false);
+
         ToggleActive();
+    }
+
+    public void OnPlayerTriggered(bool bTriggered)
+    {
+        _ButtonIcon.SetActive(bTriggered);
     }
 
     public void ToggleActive()

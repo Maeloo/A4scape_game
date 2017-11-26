@@ -28,7 +28,20 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     protected RawImage FadeInOut;
 
+    [SerializeField]
+    protected RectTransform _Popup;
+    public Text ObjectiveText { get { return _Popup.GetComponentInChildren<Text>(); } }
+
     private void Start()
+    {
+        DisplayBeerCount(false);
+        DisplayBirdCount(false);
+        //DisplayPopup(false);
+
+        Invoke("OnStart", 1f);
+    }
+
+    void OnStart()
     {
         FadeInOut.CrossFadeColor(new Color(0f, 0f, 0f, 0f), 1f, true, true);
     }
@@ -43,11 +56,31 @@ public class UIManager : Singleton<UIManager>
         FadeInOut.CrossFadeColor(new Color(0f, 0f, 0f, 0f), 1f, true, true);
     }
 
-
     public void DisplayBeerCount(bool bDisplay)
     {
-        Transform beerContainer = BeersText.transform.parent;
-        beerContainer.DOMoveX(bDisplay ? -90f : 90f, 1f).SetEase(Ease.InOutExpo);
+        RectTransform beerContainer = BeersText.rectTransform;
+        beerContainer.DOAnchorPosX(!bDisplay ? 2130f : 1830f, 2f).SetEase(Ease.InOutCubic);
+    }
+
+    public void DisplayBirdCount(bool bDisplay)
+    {
+        RectTransform birdContainer = KillsText.rectTransform;
+        birdContainer.DOAnchorPosX(!bDisplay ? 2130f : 1830f, 2f).SetEase(Ease.InOutCubic);
+    }
+
+    public void DisplayPopup(bool bDisplay)
+    {
+        CancelInvoke("HidePopup");
+
+        _Popup.DOKill();
+        _Popup.DOAnchorPosY(bDisplay ? 0f : 300f, 2f).SetEase(Ease.InOutCubic);
+
+        Invoke("HidePopup", 5f);
+    }
+
+    protected void HidePopup()
+    {
+        DisplayPopup(false);
     }
 
 }

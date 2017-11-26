@@ -48,8 +48,13 @@ public class Bird : MonoBehaviour
         {
             bAlive = false;
 
+            Destroy(collision.gameObject);
+
+            GetComponent<Animator>().enabled = false;
+
             Vector3 impactDirection = transform.position - collision.transform.position;
             gameObject.AddComponent<Rigidbody2D>().AddForce(impactDirection * 100f);
+            gameObject.GetComponent<Rigidbody2D>().AddTorque(-1000f);
 
             GameCore.Instance.OnBirdKilled();
         }        

@@ -6,7 +6,6 @@ using DG.Tweening;
 
 public class GameCore : Singleton<GameCore>
 {
-
     [SerializeField]
     protected GameObject PlayerPrefab;
 
@@ -21,9 +20,17 @@ public class GameCore : Singleton<GameCore>
 
     protected int _Kills;
 
+    public float PopupAutoTimer = 30f;
+    public float PopupCooldown;
 
-	// Start Game
-	void Start ()
+    protected GameObject[] t1_elements;
+    protected GameObject[] t2_elements;
+
+    protected bool bPaused;
+
+
+    // Start Game
+    void Start ()
     {
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
 
@@ -31,6 +38,14 @@ public class GameCore : Singleton<GameCore>
         m_gameCamera = MainCamera.GetComponent<Camera>();
 
         _Kills = 0;
+
+        t1_elements = GameObject.FindGameObjectsWithTag("T1");
+        t2_elements = GameObject.FindGameObjectsWithTag("T2");
+
+        foreach (GameObject el2 in t2_elements)
+        {
+            el2.SetActive(false);
+        }
 
         GameObject[] landlords = GameObject.FindGameObjectsWithTag("Landlord");
         foreach (GameObject ll in landlords)
@@ -42,6 +57,25 @@ public class GameCore : Singleton<GameCore>
                 DialogueData.Landlord_1_c,
                 DialogueData.Landlord_1_d,
             });
+        }
+
+        UIManager.Instance.ObjectiveText.text = DialogueData.Objective_1;
+        PopupCooldown = 0f;
+    }
+
+    public void TogglePause()
+    {
+        bPaused = !bPaused;
+        Time.timeScale = bPaused ? 0f : 1f;
+    }
+
+    private void Update()
+    {
+        PopupCooldown -= Time.deltaTime;
+        if(PopupCooldown <=  0f)
+        {
+            PopupCooldown = PopupAutoTimer;
+            UIManager.Instance.DisplayPopup(true);
         }
     }
 
@@ -69,6 +103,9 @@ public class GameCore : Singleton<GameCore>
                 DialogueData.Drunkard_1_c
             });
         }
+
+        UIManager.Instance.ObjectiveText.text = DialogueData.Objective_2;
+        PopupCooldown = 0f;
     }
 
     public void A_Landlord_1_No()
@@ -92,16 +129,20 @@ public class GameCore : Singleton<GameCore>
 
         GameCore.Instance.Player.StopInterracting();
 
-        BirdSpawner.Instance.Frequency = 10f;
-        BirdSpawner.Instance.RandomDeviation = 5f;
+        BirdSpawner.Instance.Frequency = 8f;
+        BirdSpawner.Instance.RandomDeviation = 3f;
 
         bA_Drunkard_1 = true;
 
-        OnBirdKilled();
-        OnBirdKilled();
-        OnBirdKilled();
-        OnBirdKilled();
-        OnBirdKilled();
+        UIManager.Instance.DisplayBirdCount(true);
+        UIManager.Instance.ObjectiveText.text = DialogueData.Objective_3;
+        PopupCooldown = 0f;
+
+        //OnBirdKilled();
+        //OnBirdKilled();
+        //OnBirdKilled();
+        //OnBirdKilled();
+        //OnBirdKilled();
     }
 
     public void A_Landlord_3()
@@ -117,6 +158,9 @@ public class GameCore : Singleton<GameCore>
                 DialogueData.Doggo_3_c
             });
         }
+
+        UIManager.Instance.ObjectiveText.text = DialogueData.Objective_6;
+        PopupCooldown = 0f;
     }
 
     public void A_Doggo_1_Yes()
@@ -128,7 +172,10 @@ public class GameCore : Singleton<GameCore>
 
         UIManager.Instance.FadeOut();
 
-        Invoke("OnFadeTransition", 1.5f);
+        UIManager.Instance.DisplayBeerCount(false);
+        UIManager.Instance.DisplayBirdCount(false);
+
+        Invoke("OnFadeTransition", 2f);
     }
 
     public void A_Doggo_1_No()
@@ -153,6 +200,9 @@ public class GameCore : Singleton<GameCore>
                 DialogueData.Landlord_3_c
                 });
             }
+
+            UIManager.Instance.ObjectiveText.text = DialogueData.Objective_5;
+            PopupCooldown = 0f;
         }
 
         UIManager.Instance.KillsText.text = _Kills.ToString();
@@ -160,19 +210,19 @@ public class GameCore : Singleton<GameCore>
 
     protected void OnFadeTransition()
     {
-        GameObject[] t1_elements = GameObject.FindGameObjectsWithTag("T1");
-        foreach (GameObject el in t1_elements)
+        foreach (GameObject el1 in t1_elements)
         {
-            el.SetActive(false);
+            el1.SetActive(false);
         }
 
-        GameObject[] t2_elements = GameObject.FindGameObjectsWithTag("T2");
-        foreach (GameObject el in t2_elements)
+        foreach (GameObject el2 in t2_elements)
         {
-            el.SetActive(true);
+            el2.SetActive(true);
         }
 
         UIManager.Instance.FadeIn();
+        UIManager.Instance.ObjectiveText.text = DialogueData.Objective_7;
+        PopupCooldown = 0f;
 
         GameCore.Instance.Player.CharacterController.ResetIgnoreInput();
         GameCore.Instance.Player.CharacterController.ResetIgnoreMove();

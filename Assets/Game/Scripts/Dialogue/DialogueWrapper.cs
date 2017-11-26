@@ -32,6 +32,7 @@ public class DialogueWrapper
     }
 
     public string DialogueText;
+    public Texture Portrait;
     public AnswerWrapper[] DialogueAnswers;
 	
 }
@@ -71,5 +72,13 @@ static public class DialogueData
     static public DialogueWrapper Doggo_3_a = new DialogueWrapper("Weeef weeeef! Hello friend!", EmptyAnswers);
     static public DialogueWrapper Doggo_3_b = new DialogueWrapper("Did you know -weef- every doggy friendly puppy can foresee your future?", EmptyAnswers);
     static public DialogueWrapper Doggo_3_c = new DialogueWrapper("Do you want to see the world through my eyes?", new AnswerWrapper[] { A_Doggo_1_Yes, A_Doggo_1_No });
+
+    static public string Objective_1 = "Talk to your landlord.";
+    static public string Objective_2 = "Find the barfly.";
+    static public string Objective_3 = "Collect empty beer bottles.";
+    static public string Objective_4 = "Shoot some seagulls.";
+    static public string Objective_5 = "Report to the landlord.";
+    static public string Objective_6 = "Discover the dog's secret.";
+    static public string Objective_7 = "Survive the apocalypse.";
 
 }
