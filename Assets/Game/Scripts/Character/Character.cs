@@ -10,6 +10,10 @@ public class Character : MonoBehaviour
     [SerializeField]
     protected GameObject StateMachinePrefab;
 
+    [SerializeField]
+    protected AudioSource _RunSound;
+    public AudioSource RunSound { get { return _RunSound; } }
+
     public float LeftBorderDistance = 150f;
     public float RightBorderDistance = 150f;
 

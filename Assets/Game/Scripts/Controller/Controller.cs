@@ -52,7 +52,7 @@ public class Controller : MonoBehaviour
             GameCore.Instance.TogglePause();
         }
 
-        if ((Input.GetKeyDown(KeyCode.Delete) || Input.GetButtonDown("Select")) && GameCore.Instance.GamePaused) // Select
+        if ((Input.GetKeyDown(KeyCode.Delete) || Input.GetButtonDown("Select")) && (GameCore.Instance.GamePaused || GameCore.Instance.bEnded)) // Select
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene(0);

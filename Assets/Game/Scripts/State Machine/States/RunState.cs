@@ -12,6 +12,8 @@ public class RunState : IdleState
     public override void OnEnter()
     {
         OwnerCharacter.CharacterAnimator.SetTrigger("StateChangedToRun");
+        OwnerCharacter.RunSound.Play();
+
         WantedSpeed = RunSpeed;
         Acceleration = 4f;
     }

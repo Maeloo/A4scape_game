@@ -10,6 +10,7 @@ public class ThrowState : BaseState
 
     public override void OnEnter()
     {
+        OwnerCharacter.RunSound.Stop();
         OwnerCharacter.CharacterAnimator.SetTrigger("StateChangedToThrow");
         OwnerCharacter.CharacterController.SetIgnoreMove(true);
     }

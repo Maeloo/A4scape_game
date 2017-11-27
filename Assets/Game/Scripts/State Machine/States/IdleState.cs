@@ -14,6 +14,8 @@ public class IdleState : BaseState
     public override void OnEnter()
     {
         OwnerCharacter.CharacterAnimator.SetTrigger("StateChangedToIdle");
+        OwnerCharacter.RunSound.Stop();
+
         WantedSpeed = 0f;
         Acceleration = 4f;
     }

@@ -37,6 +37,8 @@ public class GameCore : Singleton<GameCore>
     {
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
 
+        Cursor.visible = false;
+
         MeteorSpawner.Instance.gameObject.SetActive(false);
 
         m_player = Instantiate<GameObject>(PlayerPrefab).GetComponent<Character>();
@@ -152,11 +154,11 @@ public class GameCore : Singleton<GameCore>
         UIManager.Instance.ObjectiveText.text = DialogueData.Objective_3;
         PopupCooldown = 0f;
 
-        OnBirdKilled();
-        OnBirdKilled();
-        OnBirdKilled();
-        OnBirdKilled();
-        OnBirdKilled();
+        //OnBirdKilled();
+        //OnBirdKilled();
+        //OnBirdKilled();
+        //OnBirdKilled();
+        //OnBirdKilled();
     }
 
     int hack_fix = 0;
@@ -275,8 +277,13 @@ public class GameCore : Singleton<GameCore>
         MeteorSpawner.Instance.gameObject.SetActive(true);
     }
 
+    public bool bEnded;
+    int hack_fix_bis = 0;
     public void A_DoggoFutur_1()
     {
+        hack_fix_bis++;
+        if (hack_fix_bis == 1) return;
+
         MeteorSpawner.Instance.gameObject.SetActive(false);
 
         GameCore.Instance.Player.StopInterracting();
@@ -285,14 +292,13 @@ public class GameCore : Singleton<GameCore>
 
         UIManager.Instance.FadeOut();
         UIManager.Instance.DisplayEndContainer(true, 4f, 1f);
-        UIManager.Instance.DisplayEndContainer(false, 1f, 20f);
 
-        Invoke("EndGame", 22f);
-    }
+        GetComponent<AudioSource>().DOFade(0f, 4f);
 
-    void EndGame()
-    {
-        SceneManager.LoadScene(0);
+        UIManager.Instance.EndMusic.Play();
+        UIManager.Instance.EndMusic.DOFade(.3f, 4f);
+
+        bEnded = true;
     }
 
 }

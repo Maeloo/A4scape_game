@@ -17,6 +17,9 @@ public class InteractableItem : MonoBehaviour
     [SerializeField]
     protected EItemType Type;
 
+    [SerializeField]
+    protected AudioSource _Sound;
+
     public int ItemCount = 5;
     public GameObject ItemPrefab;
 
@@ -48,6 +51,8 @@ public class InteractableItem : MonoBehaviour
     public EItemType PickUp(out int count, out GameObject prefabRef)
     {
         ToggleActive();
+
+        _Sound.Play();
 
         count = ItemCount;
         prefabRef = ItemPrefab;

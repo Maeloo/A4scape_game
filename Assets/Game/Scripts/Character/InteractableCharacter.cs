@@ -21,6 +21,9 @@ public class InteractableCharacter : MonoBehaviour
     [SerializeField]
     protected Texture[] PortraitSprites;
 
+    [SerializeField]
+    protected AudioSource _Sound;
+
 
     private void Start()
     {
@@ -71,12 +74,19 @@ public class InteractableCharacter : MonoBehaviour
         UIManager.Instance.DisplayDialogue(true);
 
         bActive = true;
+
+        _Sound.Play();
     }
 
     public void Interact()
     {
         if (bActive)
         {
+            if (!_Sound.isPlaying)
+            {
+                _Sound.Play();
+            }
+
             _currentDialogueIndex++;
             _currentDialogueIndex = Mathf.Min(_currentDialogueIndex, ActiveDialogue.Length - 1);
 

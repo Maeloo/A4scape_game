@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Gojira : MonoBehaviour
 {
+    [SerializeField]
+    protected AudioSource _Sound;
+    protected float SoundCD = 0f;
 
     public float Speed = 1f;
     public float Amplitude = 10f;
@@ -14,6 +17,8 @@ public class Gojira : MonoBehaviour
     void Start()
     {
         BaseHeight = transform.localPosition.y;
+
+        Cursor.visible = false;
     }
 
     public void OnCameraMovement(float Offset)
@@ -24,6 +29,13 @@ public class Gojira : MonoBehaviour
         newPosition.y = BaseHeight + Mathf.Sin(time) * Amplitude;
 
         transform.localPosition = newPosition;
+
+        SoundCD -= Time.deltaTime;
+        if (SoundCD <= 0f && Mathf.Abs(transform.position.x - GameCore.Instance.Player.transform.position.x) < .1f)
+        {
+            SoundCD = 5f;
+            _Sound.Play();
+        }
     }
 
 }

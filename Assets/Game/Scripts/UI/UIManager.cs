@@ -37,6 +37,10 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     protected CanvasGroup _EndContainer;
 
+    [SerializeField]
+    protected AudioSource _EndMusic;
+    public AudioSource EndMusic { get { return _EndMusic; } }
+
     private void Start()
     {
         DisplayBeerCount(false);

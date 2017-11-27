@@ -12,6 +12,7 @@ public class WalkState : IdleState
 
     public override void OnEnter()
     {
+        OwnerCharacter.RunSound.Stop(); 
         OwnerCharacter.CharacterAnimator.SetTrigger("StateChangedToWalk");
         WantedSpeed = WalkSpeed;
         Acceleration = 1.5f;

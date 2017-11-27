@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Bird : MonoBehaviour
 {
+    [SerializeField]
+    protected AudioSource _Sound;
+
     public float BaseHeight = -.5f;
     public float Amplitude = 2.5f;
     public float HorizontalSpeed = 2.1f;
@@ -47,6 +50,8 @@ public class Bird : MonoBehaviour
         if (collision.gameObject.CompareTag("Projectile"))
         {
             bAlive = false;
+
+            _Sound.Play();
 
             Destroy(collision.gameObject);
 
