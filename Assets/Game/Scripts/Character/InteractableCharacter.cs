@@ -41,9 +41,6 @@ public class InteractableCharacter : MonoBehaviour
     {
         if (bActive && ActiveDialogue.Length > 0)
         {
-            Vector3 DBScreenPosition = GameCore.Instance.GameCamera.WorldToScreenPoint(DialogBoxAnchor.position);
-            UIManager.Instance.DialogueBox.transform.position = DBScreenPosition;
-
             if (ActiveDialogue[_currentDialogueIndex].bAnswer1 && Input.GetButtonDown(ActiveDialogue[_currentDialogueIndex].DialogueAnswers[0].AnswerInput))
             {
                 GameCore.Instance.SendMessage(ActiveDialogue[_currentDialogueIndex].DialogueAnswers[0].AnswerCallback);

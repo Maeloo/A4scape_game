@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+
 
 public class Meteor : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class Meteor : MonoBehaviour
     protected GameObject Marker;
     [SerializeField]
     protected GameObject MeteorObj;
+    [SerializeField]
+    protected GameObject PrefabExplosion;
 
     public float Speed;
 
@@ -41,11 +45,27 @@ public class Meteor : MonoBehaviour
             MeteorObj.transform.position = newPosition;
 
             float distance = Vector3.Distance(Marker.transform.position, newPosition);
-            if (distance < .01f)
+            if (distance < .1f)
             {
-                Destroy(gameObject);
+                Crash();
             }
         }        
 	}
+
+    void Crash()
+    {
+        MeteorObj.GetComponent<BoxCollider2D>().enabled = false;
+        MeteorObj.GetComponent<SpriteRenderer>().DOFade(0f, .5f);
+
+        Marker.GetComponent<Animator>().SetTrigger("Crash");
+    }
+
+    public void OnPlayerCollision(Vector3 ImpactPosition)
+    {
+        Instantiate(PrefabExplosion, ImpactPosition, Quaternion.identity, transform);
+
+        MeteorObj.GetComponent<SpriteRenderer>().DOFade(0f, .15f);
+        Marker.SetActive(false);
+    }
 
 }

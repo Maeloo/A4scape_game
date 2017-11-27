@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 
 public class GameCore : Singleton<GameCore>
@@ -35,6 +36,8 @@ public class GameCore : Singleton<GameCore>
     void Start ()
     {
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
+
+        MeteorSpawner.Instance.gameObject.SetActive(false);
 
         m_player = Instantiate<GameObject>(PlayerPrefab).GetComponent<Character>();
         m_gameCamera = MainCamera.GetComponent<Camera>();
@@ -156,9 +159,12 @@ public class GameCore : Singleton<GameCore>
         OnBirdKilled();
     }
 
-    public void A_Landlord_3()
+    int hack_fix = 0;
+    public void A_Landlord_PMT()
     {
-        //Debug.Log("A_Landlord_3");
+        hack_fix++;
+        if (hack_fix == 1) return;
+        //Debug.Log("A_Landlord_PMT");
         GameObject[] doggos = GameObject.FindGameObjectsWithTag("Doggo");
         foreach (GameObject d in doggos)
         {
@@ -166,7 +172,8 @@ public class GameCore : Singleton<GameCore>
             {
                 DialogueData.Doggo_3_a,
                 DialogueData.Doggo_3_b,
-                DialogueData.Doggo_3_c
+                DialogueData.Doggo_3_c,
+                DialogueData.Doggo_3_d
             });
         }
 
@@ -209,14 +216,16 @@ public class GameCore : Singleton<GameCore>
                 ll.SetActive(false);
             }
 
-            foreach (GameObject ll in landlords_futur)
+            foreach (GameObject llf in landlords_futur)
             {
-                ll.SetActive(true);
-                ll.GetComponent<InteractableCharacter>().SetDialogue(new DialogueWrapper[]
+                llf.SetActive(true);
+                llf.GetComponent<InteractableCharacter>().SetDialogue(new DialogueWrapper[]
                 {
                     DialogueData.Landlord_3_a,
                     DialogueData.Landlord_3_b,
-                    DialogueData.Landlord_3_c
+                    DialogueData.Landlord_3_c,
+                    DialogueData.Landlord_3_d,
+                    DialogueData.Landlord_3_e
                 });
             }
 
@@ -243,8 +252,47 @@ public class GameCore : Singleton<GameCore>
         UIManager.Instance.ObjectiveText.text = DialogueData.Objective_7;
         PopupCooldown = 0f;
 
+        GameObject[] doggos = GameObject.FindGameObjectsWithTag("Doggo_Futur");
+        foreach (GameObject d in doggos)
+        {
+            d.GetComponent<InteractableCharacter>().SetDialogue(new DialogueWrapper[]
+            {
+                DialogueData.DoggoFutur_3_a,
+                DialogueData.DoggoFutur_3_b,
+                DialogueData.DoggoFutur_3_c,
+                DialogueData.DoggoFutur_3_d,
+                DialogueData.DoggoFutur_3_e,
+                DialogueData.DoggoFutur_3_f,
+                DialogueData.DoggoFutur_3_g,
+                DialogueData.DoggoFutur_3_h,
+                DialogueData.DoggoFutur_3_i
+            });
+        }
+
         GameCore.Instance.Player.CharacterController.ResetIgnoreInput();
         GameCore.Instance.Player.CharacterController.ResetIgnoreMove();
+
+        MeteorSpawner.Instance.gameObject.SetActive(true);
+    }
+
+    public void A_DoggoFutur_1()
+    {
+        MeteorSpawner.Instance.gameObject.SetActive(false);
+
+        GameCore.Instance.Player.StopInterracting();
+        GameCore.Instance.Player.CharacterController.SetIgnoreInput(true);
+        GameCore.Instance.Player.CharacterController.SetIgnoreMove(true);
+
+        UIManager.Instance.FadeOut();
+        UIManager.Instance.DisplayEndContainer(true, 4f, 1f);
+        UIManager.Instance.DisplayEndContainer(false, 1f, 20f);
+
+        Invoke("EndGame", 22f);
+    }
+
+    void EndGame()
+    {
+        SceneManager.LoadScene(0);
     }
 
 }

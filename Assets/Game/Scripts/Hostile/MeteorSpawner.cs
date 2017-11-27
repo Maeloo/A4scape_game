@@ -6,7 +6,7 @@ public class MeteorSpawner : Singleton<MeteorSpawner>
 {
 
     [SerializeField]
-    protected Meteor MeteorPrefab;
+    protected GameObject MeteorPrefab;
     [SerializeField]
     protected Transform MeteorParent;
 
@@ -19,7 +19,7 @@ public class MeteorSpawner : Singleton<MeteorSpawner>
 
     private void Start()
     {
-        CooldownSpawn = 0f;
+        CooldownSpawn = 1f;
     }
 
     private void Update()
@@ -34,10 +34,9 @@ public class MeteorSpawner : Singleton<MeteorSpawner>
 
     void SpawnMeteor()
     {
-        float Position_X = GameCore.Instance.Player.transform.position.x + Random.Range(-OffsetRange, OffsetRange);
+        float Position_X = GameCore.Instance.Player.transform.position.x + OffsetRange * .5f + Random.Range(-OffsetRange, OffsetRange);
 
-        Meteor NewMeteor = Instantiate<Meteor>(MeteorPrefab, new Vector3(Position_X, 0f), Quaternion.identity, MeteorParent);
-        NewMeteor.TriggerFall();
+        Instantiate<GameObject>(MeteorPrefab, new Vector3(Position_X, -2f), Quaternion.identity, MeteorParent).GetComponent<Meteor>().TriggerFall();
 
         CooldownSpawn = Frequency + Random.Range(-RandomDeviation, RandomDeviation);
     }

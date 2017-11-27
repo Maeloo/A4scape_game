@@ -161,7 +161,7 @@ public class Character : MonoBehaviour
         if (!bInvincible && collision.CompareTag("Meteor"))
         {
             //Debug.Log("Hit by a meteor");
-            Destroy(collision.transform.parent.gameObject);
+            collision.GetComponentInParent<Meteor>().OnPlayerCollision((collision.transform.position + transform.position) * .5f);
 
             Vector3 newPosition = transform.position;
             newPosition.x -= 1f * _CharacterMovementComponent.Direction;

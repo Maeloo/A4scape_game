@@ -10,7 +10,6 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField]
     protected GameObject _DialogueBox;
-    public GameObject DialogueBox { get { return _DialogueBox; } }
     public UIDialogueBox Dialogue { get { return _DialogueBox.GetComponent<UIDialogueBox>(); } }
 
     [SerializeField]
@@ -35,12 +34,16 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     protected CanvasGroup _Pause;
 
+    [SerializeField]
+    protected CanvasGroup _EndContainer;
+
     private void Start()
     {
         DisplayBeerCount(false);
         DisplayBirdCount(false);
         DisplayPause(false);
         DisplayDialogue(false);
+        DisplayEndContainer(false, 0f, 0f);
 
         Invoke("OnStart", 1f);
     }
@@ -96,6 +99,11 @@ public class UIManager : Singleton<UIManager>
     protected void HidePopup()
     {
         DisplayPopup(false);
+    }
+
+    public void DisplayEndContainer(bool bDisplay, float duration = 2f, float delay = 0f)
+    {
+        _EndContainer.DOFade(bDisplay ? 1f : 0f, duration).SetDelay(delay);
     }
 
 }
