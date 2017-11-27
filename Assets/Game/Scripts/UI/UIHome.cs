@@ -19,9 +19,7 @@ public class UIHome : MonoBehaviour
         {
             bStarted = true;
 
-            Container.DOFade(0f, .6f);
-
-            SceneManager.LoadSceneAsync(1);
+            Container.DOFade(0f, .6f).OnComplete(() => { SceneManager.LoadScene(1); });
         }
 	}
 
