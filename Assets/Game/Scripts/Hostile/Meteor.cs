@@ -18,6 +18,8 @@ public class Meteor : MonoBehaviour
 
     protected bool bFalling = false;
 
+    public Vector3 _savedPosition;
+
 
     private void Start()
     {
@@ -30,6 +32,11 @@ public class Meteor : MonoBehaviour
         MeteorObj.SetActive(true);
 
         bFalling = true;
+    }
+
+    public void StopFall()
+    {
+        bFalling = false;
     }
 
     void Update ()

@@ -31,6 +31,7 @@ public class Character : MonoBehaviour
     public MovementComponent CharacterMovementComponent { get { return _CharacterMovementComponent; } }
     public ThrowComponent ThrowComponent { get { return _ThrowComponent; } }
     public Controller CharacterController { get { return _CharacterController; } }
+    public SpriteRenderer Renderer { get { return _Renderer; } }
 
     [HideInInspector]
     public float relativeVelocity;
@@ -174,7 +175,7 @@ public class Character : MonoBehaviour
             _CharacterController.SetIgnoreMove(true);
 
             bInvincible = true;
-            _Renderer.DOFade(.7f, .3f).SetEase(Ease.InOutQuad).SetLoops(10).OnComplete(() =>
+            _Renderer.DOFade(.7f, .3f).SetEase(Ease.InOutQuad).SetLoops(5).OnComplete(() =>
             {
                 bInvincible = false;
                 _Renderer.DOFade(1f, .0f);

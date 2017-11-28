@@ -97,7 +97,7 @@ public class UIManager : Singleton<UIManager>
         _Popup.DOKill();
         _Popup.DOAnchorPosY(bDisplay ? 0f : 300f, 2f).SetEase(Ease.InOutCubic);
 
-        Invoke("HidePopup", 5f);
+        //Invoke("HidePopup", 5f);
     }
 
     protected void HidePopup()

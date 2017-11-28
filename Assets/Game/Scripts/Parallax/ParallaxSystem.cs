@@ -45,10 +45,14 @@ public class ParallaxLayer
         {
             if (OrderedSprites[0].transform.position.x < -SpriteWidth * SpriteScale  * .5f - 18f)
             {
+                MeteorSpawner.Instance.SaveMeteorPosition();
+
                 SpriteRenderer temp = OrderedSprites[0];
                 temp.transform.position = OrderedSprites[OrderedSprites.Count - 1].transform.position + new Vector3(SpriteWidth * SpriteScale, 0f, 0f);
                 OrderedSprites.RemoveAt(0);
                 OrderedSprites.Add(temp);
+
+                MeteorSpawner.Instance.LoadMeteorPosition();
             }
         }
 
@@ -56,10 +60,14 @@ public class ParallaxLayer
         {
             if (OrderedSprites[OrderedSprites.Count - 1].transform.position.x > SpriteWidth * SpriteScale * .5f + 18f)
             {
+                MeteorSpawner.Instance.SaveMeteorPosition();
+
                 SpriteRenderer temp = OrderedSprites[OrderedSprites.Count - 1];
                 temp.transform.position = OrderedSprites[0].transform.position - new Vector3(SpriteWidth * SpriteScale, 0f, 0f);
                 OrderedSprites.RemoveAt(OrderedSprites.Count - 1);
                 OrderedSprites.Insert(0, temp);
+
+                MeteorSpawner.Instance.LoadMeteorPosition();
             }
         }
     }

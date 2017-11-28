@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4538864557691010}
   - component: {fileID: 212669815997584424}
   - component: {fileID: 61003472607268484}
+  - component: {fileID: 95431585977047398}
   m_Layer: 0
   m_Name: MeteorObj
   m_TagString: Meteor
@@ -138,6 +139,23 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 709caf7434ab7ae4a8ff29eddcf5904c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95431585977047398
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1330197216290386}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c0b61ac89f2a0c84e8e81498c2ce9152, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

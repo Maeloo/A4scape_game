@@ -24,6 +24,8 @@ public class InteractableCharacter : MonoBehaviour
     [SerializeField]
     protected AudioSource _Sound;
 
+    public string OnDialogueOpen = "";
+
 
     private void Start()
     {
@@ -67,6 +69,11 @@ public class InteractableCharacter : MonoBehaviour
         if (bActive || ActiveDialogue == null || ActiveDialogue.Length == 0)
         {
             return;
+        }
+
+        if (OnDialogueOpen != "")
+        {
+            GameCore.Instance.SendMessage(OnDialogueOpen);
         }
 
         RefreshDialogue();

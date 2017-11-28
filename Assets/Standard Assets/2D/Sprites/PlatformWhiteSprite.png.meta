@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: d90a8faf6fb9540b084ef2825cc3a5dc
+timeCreated: 1511897101
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: PrototypeWhite04x01
@@ -42,7 +44,7 @@ TextureImporter:
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 6
+  alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 204.8

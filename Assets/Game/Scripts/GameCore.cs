@@ -13,11 +13,19 @@ public class GameCore : Singleton<GameCore>
     [SerializeField]
     protected FollowCamera MainCamera;
 
+    [SerializeField]
+    protected Transform EndBackground;
+
+    [SerializeField]
+    protected AudioClip MusicLevel2;
+
     public Camera GameCamera { get { return m_gameCamera; } }
     public Camera m_gameCamera;
 
     private Character m_player;
     public Character Player { get { return m_player; } }
+
+    protected AudioSource Music;
 
     protected int _Kills;
 
@@ -38,6 +46,8 @@ public class GameCore : Singleton<GameCore>
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
 
         Cursor.visible = false;
+
+        Music = GetComponent<AudioSource>();
 
         MeteorSpawner.Instance.gameObject.SetActive(false);
 
@@ -124,10 +134,9 @@ public class GameCore : Singleton<GameCore>
         PopupCooldown = 0f;
     }
 
-    public void A_Landlord_1_No()
+    public void CloseDialogue()
     {
-        //Debug.Log("A_Landlord_1_No");
-        GameCore.Instance.Player.StopInterracting();
+        Player.StopInterracting();
     }
 
     bool bA_Drunkard_1 = false;
@@ -153,16 +162,10 @@ public class GameCore : Singleton<GameCore>
         UIManager.Instance.DisplayBirdCount(true);
         UIManager.Instance.ObjectiveText.text = DialogueData.Objective_3;
         PopupCooldown = 0f;
-
-        //OnBirdKilled();
-        //OnBirdKilled();
-        //OnBirdKilled();
-        //OnBirdKilled();
-        //OnBirdKilled();
     }
 
     int hack_fix = 0;
-    public void A_Landlord_PMT()
+    public void A_Landlord_3_PMT()
     {
         hack_fix++;
         if (hack_fix == 1) return;
@@ -179,7 +182,7 @@ public class GameCore : Singleton<GameCore>
             });
         }
 
-        GameCore.Instance.Player.StopInterracting();
+        Player.StopInterracting();
 
         UIManager.Instance.ObjectiveText.text = DialogueData.Objective_6;
         PopupCooldown = 0f;
@@ -188,22 +191,24 @@ public class GameCore : Singleton<GameCore>
     public void A_Doggo_1_Yes()
     {
         //Debug.Log("A_Doggo_1_Yes");
-        GameCore.Instance.Player.StopInterracting();
-        GameCore.Instance.Player.CharacterController.SetIgnoreInput(true);
-        GameCore.Instance.Player.CharacterController.SetIgnoreMove(true);
+        Player.StopInterracting();
+        Player.CharacterController.SetIgnoreInput(true);
+        Player.CharacterController.SetIgnoreMove(true);
 
         UIManager.Instance.FadeOut();
 
         UIManager.Instance.DisplayBeerCount(false);
         UIManager.Instance.DisplayBirdCount(false);
 
-        Invoke("OnFadeTransition", 2f);
-    }
+        Music.DOFade(0f, 2f).OnComplete(() => 
+        {
+            Music.Stop();
+            Music.clip = MusicLevel2;
+            Music.Play();
+        });
+        Music.DOFade(.3f, 2f).SetDelay(2f);
 
-    public void A_Doggo_1_No()
-    {
-        //Debug.Log("A_Doggo_1_No");
-        GameCore.Instance.Player.StopInterracting();
+        Invoke("OnFadeTransition", 2f);
     }
 
     public void OnBirdKilled()
@@ -277,6 +282,32 @@ public class GameCore : Singleton<GameCore>
         MeteorSpawner.Instance.gameObject.SetActive(true);
     }
 
+    public void PreEnd()
+    {
+        Player.CharacterController.SetIgnoreMove(true);
+
+        MeteorSpawner.Instance.Stop();
+
+        UIManager.Instance.DisplayPopup(false);
+
+        EndBackground.DOScaleX(8f, 1f);
+        EndBackground.DOScaleY(16f, 1f);
+
+        Player.Renderer.sortingOrder = 100;
+
+        GameObject[] doggo_int = GameObject.FindGameObjectsWithTag("Doggo_Futur");
+        GameObject[] doggo_noi = GameObject.FindGameObjectsWithTag("Doggo_Simple");
+
+        List<GameObject> doggos = new List<GameObject>();
+        doggos.AddRange(doggo_int);
+        doggos.AddRange(doggo_noi);
+
+        foreach (GameObject d in doggos)
+        {
+            d.GetComponent<SpriteRenderer>().sortingOrder = 99;
+        }
+    }
+
     public bool bEnded;
     int hack_fix_bis = 0;
     public void A_DoggoFutur_1()
@@ -286,9 +317,8 @@ public class GameCore : Singleton<GameCore>
 
         MeteorSpawner.Instance.gameObject.SetActive(false);
 
-        GameCore.Instance.Player.StopInterracting();
-        GameCore.Instance.Player.CharacterController.SetIgnoreInput(true);
-        GameCore.Instance.Player.CharacterController.SetIgnoreMove(true);
+        Player.StopInterracting();
+        Player.CharacterController.SetIgnoreInput(true);
 
         UIManager.Instance.FadeOut();
         UIManager.Instance.DisplayEndContainer(true, 4f, 1f);
