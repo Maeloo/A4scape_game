@@ -162,6 +162,12 @@ public class GameCore : Singleton<GameCore>
         UIManager.Instance.DisplayBirdCount(true);
         UIManager.Instance.ObjectiveText.text = DialogueData.Objective_3;
         PopupCooldown = 0f;
+
+        //OnBirdKilled();
+        //OnBirdKilled();
+        //OnBirdKilled();
+        //OnBirdKilled();
+        //OnBirdKilled();
     }
 
     int hack_fix = 0;
@@ -245,6 +251,9 @@ public class GameCore : Singleton<GameCore>
 
     protected void OnFadeTransition()
     {
+        Player.bBlockLeftMovement = true;
+        Player.LeftBorderDistance = 50f;   
+
         foreach (GameObject el1 in t1_elements)
         {
             el1.SetActive(false);

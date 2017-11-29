@@ -74,6 +74,8 @@ public class Character : MonoBehaviour
         HandleMovementInput(_CharacterController.LastInput);
     }
 
+    public bool bBlockLeftMovement = false;
+
     // Physic Tick
     private void FixedUpdate()
     {
@@ -82,8 +84,11 @@ public class Character : MonoBehaviour
             (characterScreenPosition.x >= Screen.width - RightBorderDistance && _CharacterMovementComponent.LastVelocity.x > 0f) &&
             _CharacterStateMachine.CurrentState == EStateType.Run)
         {
-            ParallaxSystem.Instance.UpdateLayers(_CharacterMovementComponent.Direction);
-
+            if(!(_CharacterMovementComponent.LastVelocity.x < 0f && bBlockLeftMovement))
+            {
+                ParallaxSystem.Instance.UpdateLayers(_CharacterMovementComponent.Direction);
+            }
+            
             _CharacterMovementComponent.StopMovement();
         }
     }

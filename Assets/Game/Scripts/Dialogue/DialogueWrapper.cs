@@ -52,7 +52,7 @@ static public class DialogueData
     static public DialogueWrapper Landlord_1_a = new DialogueWrapper("What's   wrong   with   you   dude?", EmptyAnswers, false, false, true);
     static public DialogueWrapper Landlord_1_b = new DialogueWrapper("When   will   you   pay   me   that   rent?", EmptyAnswers, false, false, true);
     static public DialogueWrapper Landlord_1_c = new DialogueWrapper("Do   me   a   favor   and   I   won't   increase   it   next   week.", EmptyAnswers, false, false, true);
-    static public DialogueWrapper Landlord_1_d = new DialogueWrapper("What   do   you   say?", new AnswerWrapper[] { A_Landlord_1_Yes, A_Landlord_1_No }, true, false, false);
+    static public DialogueWrapper Landlord_1_d = new DialogueWrapper("What   do   you   say?", new AnswerWrapper[] { A_Landlord_1_Yes, A_Landlord_1_No }, true, true, false);
 
     static private AnswerWrapper A_Landlord_2 = new AnswerWrapper("Fine", "A", "CloseDialogue");
 

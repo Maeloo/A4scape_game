@@ -180,7 +180,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -251,6 +251,7 @@ MonoBehaviour:
   LeftBorderDistance: 300
   RightBorderDistance: 300
   relativeVelocity: 0
+  bBlockLeftMovement: 0
 --- !u!114 &114769847810666850
 MonoBehaviour:
   m_ObjectHideFlags: 1

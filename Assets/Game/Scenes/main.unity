@@ -3246,7 +3246,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 879144242}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 872.3999, y: 436.2882, z: 0}
+  m_LocalPosition: {x: 872.39996, y: 436.0235, z: 0}
   m_LocalScale: {x: 0.9999983, y: 0.9999983, z: 0.9999983}
   m_Children:
   - {fileID: 1174010436}
@@ -7682,7 +7682,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1814710979}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 539.8883, z: 0}
+  m_LocalPosition: {x: 0, y: 539.6236, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 587191185}
@@ -7824,7 +7824,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1846201675}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 873.80005, y: 489.3883, z: 0}
+  m_LocalPosition: {x: 873.8001, y: 489.1236, z: 0}
   m_LocalScale: {x: 1.0000081, y: 1.0000081, z: 1.0000081}
   m_Children:
   - {fileID: 783561590}
@@ -9195,7 +9195,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1992160819}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -851, y: 483.8883, z: 0}
+  m_LocalPosition: {x: -850.99994, y: 483.6236, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2098628937}
@@ -9574,8 +9574,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2098628933}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 537, y: 302, z: 0}
-  m_LocalScale: {x: 0.559375, y: 0.559375, z: 0.559375}
+  m_LocalPosition: {x: 398.5, y: 224, z: 0}
+  m_LocalScale: {x: 0.41510418, y: 0.41510418, z: 0.41510418}
   m_Children:
   - {fileID: 380059351}
   - {fileID: 1992160820}
@@ -10012,6 +10012,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1971853871778086, guid: bb53f4a3b311ecc4d833b724aab38768, type: 2}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82593318752794658, guid: bb53f4a3b311ecc4d833b724aab38768,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
