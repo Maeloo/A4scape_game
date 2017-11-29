@@ -85,8 +85,15 @@ public class InteractableCharacter : MonoBehaviour
         _Sound.Play();
     }
 
+    public bool bhackIgnoreNextInteract;
     public void Interact()
     {
+        if (bhackIgnoreNextInteract)
+        {
+            bhackIgnoreNextInteract = false;
+            return;
+        }
+
         if (bActive)
         {
             if (!_Sound.isPlaying)

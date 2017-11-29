@@ -117,6 +117,7 @@ public class GameCore : Singleton<GameCore>
                 DialogueData.Landlord_2_b
             });
             ll.GetComponent<InteractableCharacter>().RefreshDialogue();
+            ll.GetComponent<InteractableCharacter>().bhackIgnoreNextInteract = true;
         }
 
         GameObject[] drunkards = GameObject.FindGameObjectsWithTag("Drunkard");

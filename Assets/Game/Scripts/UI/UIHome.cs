@@ -13,6 +13,12 @@ public class UIHome : MonoBehaviour
 
     protected bool bStarted = false;
 
+
+    private void Start()
+    {
+        Cursor.visible = false;
+    }
+
 	void Update ()
     {
 	    if (!bStarted && Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("A"))
