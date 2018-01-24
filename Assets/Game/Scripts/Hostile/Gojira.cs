@@ -31,11 +31,17 @@ public class Gojira : MonoBehaviour
         transform.localPosition = newPosition;
 
         SoundCD -= Time.deltaTime;
-        if (SoundCD <= 0f && Mathf.Abs(transform.position.x - GameCore.Instance.Player.transform.position.x) < .1f)
+        if (SoundCD <= 0f && Mathf.Abs(transform.position.x - GameCore.Instance.Player.transform.position.x) < 5f)
         {
             SoundCD = 5f;
-            _Sound.Play();
+            Shout();
+            Invoke("Shout", 2f);
         }
+    }
+
+    public void Shout()
+    {
+        _Sound.Play();
     }
 
 }

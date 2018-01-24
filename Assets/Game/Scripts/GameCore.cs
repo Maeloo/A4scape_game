@@ -84,6 +84,8 @@ public class GameCore : Singleton<GameCore>
 
         UIManager.Instance.ObjectiveText.text = DialogueData.Objective_1;
         PopupCooldown = 0f;
+
+        //Invoke("A_Doggo_1_Yes", 1f);
     }
 
     public void TogglePause()
