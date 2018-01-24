@@ -1,0 +1,5 @@
+Input Type    - Gamepad - KeyBoard
+Validate      - A       - Return (Enter)
+Stop talking  - B       - End
+Start talking - Y       - Up Arrow
+Throw bottle  - X       - Space
